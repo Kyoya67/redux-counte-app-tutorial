@@ -3,10 +3,11 @@ import { increment, decrement, incrementByAmount } from './redux/couterSlice'
 import './App.css';
 import { useState } from 'react';
 
-
 function App() {
-  const [incrementAmount, setIncrementAmount] = useState(7);
+  const [incrementAmount, setIncrementAmount] = useState(0);
+  //useSelectorでstore.jsのcounterを取得
   const count = useSelector((state) => state.counter.value);
+  //useDispatchでstore.jsのcounterを更新
   const dispatch = useDispatch();
   return (
     <div className="App">
