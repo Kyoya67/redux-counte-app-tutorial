@@ -28,15 +28,23 @@ src/
 ## 🔄 Reduxのデータフロー
 
 ```mermaid
-graph LR
+graph TD
     A("User<br/>Input") --> B("View<br/>(React Component)")
     B --> C("Action Creator")
-    C --> D("Action")
+    C --> B
+    B --> D("Action")
     D --> E("dispatch")
-    E --> F[("Store")]
-    F --> G("Reducer")
-    G --> H("State'")
-    H --> I("State")
+    E --> F[Store]
+    
+    subgraph F["🏪 Store"]
+        direction TB
+        G("Reducer")
+        H("State'")
+        I("State")
+        G --> H
+        H --> I
+    end
+    
     I --> B
     
     style A fill:#f9f9f9,stroke:#333,stroke-width:2px
