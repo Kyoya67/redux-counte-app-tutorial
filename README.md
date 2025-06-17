@@ -1,6 +1,6 @@
 # Redux Counter App Tutorial
 
-Reduxを学習するためのシンプルなカウンターアプリケーションです。こちら[https://www.youtube.com/watch?v=KuRu5wOyY_c]のYoutubeの動画を参考に作りました
+Reduxを学習するためのシンプルなカウンターアプリケーションです。こちらの[ShinさんのYouTube動画](https://www.youtube.com/watch?v=KuRu5wOyY_c)を参考に作りました。
 
 ## 🚀 機能
 
