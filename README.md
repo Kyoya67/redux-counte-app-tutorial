@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+# Redux Counter App Tutorial
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Reduxを学習するためのシンプルなカウンターアプリケーションです。
 
-## Available Scripts
+## 🚀 機能
 
-In the project directory, you can run:
+- ➕ カウンターの増加
+- ➖ カウンターの減少
+- 🔢 任意の数値でカウンターを増加
 
-### `npm start`
+## 🛠 技術スタック
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React** - UI構築
+- **Redux Toolkit** - 状態管理
+- **React-Redux** - ReactとReduxの連携
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📁 プロジェクト構造
 
-### `npm test`
+```
+src/
+├── App.js              # メインコンポーネント
+├── redux/
+│   ├── store.js        # Reduxストア設定
+│   └── counterSlice.js # カウンター用Slice
+└── App.css
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🔄 Reduxのデータフロー
 
-### `npm run build`
+```mermaid
+graph LR
+    A("User<br/>Input") --> B("View<br/>(React Component)")
+    B --> C("Action Creator")
+    C --> D("Action")
+    D --> E("dispatch")
+    E --> F[("Store")]
+    F --> G("Reducer")
+    G --> H("State'")
+    H --> I("State")
+    I --> B
+    
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style B fill:#4A90E2,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#4A90E2,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#FF8C42,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#4A90E2,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#E5E5E5,stroke:#333,stroke-width:3px
+    style G fill:#4A90E2,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#7ED321,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#7ED321,stroke:#333,stroke-width:2px,color:#fff
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+上の図で示されているように、Reduxは以下のような一方向のデータフローに従います：
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **User Input** → ユーザーがUIで操作（ボタンクリックなど）
+2. **View** → React コンポーネント（App.js）
+3. **Action Creator** → アクションを生成（`increment`, `decrement`など）
+4. **Action** → 実際のアクションオブジェクト
+5. **dispatch** → アクションをストアに送信（`useDispatch`）
+6. **Store** → アプリケーションの状態を管理
+7. **Reducer** → アクションに基づいて新しい状態を計算
+8. **State'** → 計算された新しい状態
+9. **State** → 更新された状態でUIを再レンダリング（`useSelector`）
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🚀 使用方法
 
-### `npm run eject`
+1. プロジェクトをクローン
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone <repository-url>
+cd redux-counter-app-tutorial
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. 依存関係をインストール
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. 開発サーバーを起動
 
-## Learn More
+```bash
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. [http://localhost:3000](http://localhost:3000) でアプリを確認
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📚 Reduxの学習ポイント
 
-### Code Splitting
+### 1. Slice (counterSlice.js)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```javascript
+export const counterSlice = createSlice({
+    name: "counter", // Action Creatorのプレフィックス
+    initialState: { value: 0 }, // 初期状態
+    reducers: { // Reducerと Action Creatorを同時定義
+        increment: (state) => {
+            state.value += 1;
+        },
+        decrement: (state) => {
+            state.value -= 1;
+        },
+        incrementByAmount: (state, action) => {
+            state.value += action.payload;
+        },
+    },
+});
+```
 
-### Analyzing the Bundle Size
+### 2. Store (store.js)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```javascript
+export const store = configureStore({
+    reducer: {
+        counter: counterReducer, // stateのcounterキーに対応
+    },
+});
+```
 
-### Making a Progressive Web App
+### 3. React連携 (App.js)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```javascript
+// 状態の取得
+const count = useSelector((state) => state.counter.value);
 
-### Advanced Configuration
+// アクションの実行
+const dispatch = useDispatch();
+dispatch(increment());
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📈 このアプリで学べること
 
-### Deployment
+- ✅ Redux Toolkitの基本的な使い方
+- ✅ `createSlice`によるボイラープレートの削減
+- ✅ `useSelector`と`useDispatch`によるReact連携
+- ✅ 単方向データフローの理解
+- ✅ Immutableな状態更新（Immerによる）
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🔗 参考リンク
 
-### `npm run build` fails to minify
+- [Redux Toolkit 公式ドキュメント](https://redux-toolkit.js.org/)
+- [React-Redux 公式ドキュメント](https://react-redux.js.org/)
+- [Redux 基本チュートリアル](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+_このプロジェクトは
+[Create React App](https://github.com/facebook/create-react-app)
+で作成されました。_
