@@ -1,24 +1,23 @@
-import logo from './logo.svg';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, incrementByAmount } from './redux/couterSlice'
 import './App.css';
+import { useState } from 'react';
+
 
 function App() {
+  const [incrementAmount, setIncrementAmount] = useState(7);
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <h1>Count: {count}</h1>
+      <input onChange={(e) => setIncrementAmount(e.target.value)} value={incrementAmount}></input>
+      <button onClick={() => dispatch(increment())}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
+      <button
+        onClick={() => dispatch(incrementByAmount(Number(incrementAmount)))}>追加
+      </button>
+    </div >
   );
 }
 
